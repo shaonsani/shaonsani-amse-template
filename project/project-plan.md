@@ -36,10 +36,11 @@ This dataset contains Aachen weather data with parameters of Datetime, Air Press
 
 1. Preprocess Luftqualitätsdaten August 2021 dataset [#1][i1]
 2. Create datapipeline [#2][i6]
-3. Remove unwanted columns from Aachen Weather Dataset  [#2][i2]
-4. Load data into database [#3][i3]
-5. Data analysis and make correlation [#4][i4]
-6. Visualization [#5][i5]
+3. Remove unwanted columns from Aachen Weather Dataset  [#3][i2]
+4. Load data into database [#4][i3]
+5. Write automated test case [#5][i7]
+6. Data analysis and make correlation [#6][i4]
+7. Visualization [#7][i5]
 
 [i1]: https://github.com/shaonsani/shaonsani-amse-template/issues/1
 [i2]: https://github.com/shaonsani/shaonsani-amse-template/issues/2
@@ -47,3 +48,4 @@ This dataset contains Aachen weather data with parameters of Datetime, Air Press
 [i4]: https://github.com/shaonsani/shaonsani-amse-template/issues/4
 [i5]: https://github.com/shaonsani/shaonsani-amse-template/issues/5
 [i6]: https://github.com/shaonsani/shaonsani-amse-template/issues/6
+[i7]: https://github.com/shaonsani/shaonsani-amse-template/issues/7
