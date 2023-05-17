@@ -28,7 +28,7 @@ class Exercise:
             'column_12': 'VARCHAR(50)',
             'geo_punkt': 'DOUBLE'
         }
-        self.data.to_sql(name="airports", con=conn, if_exists="replace", index=False,  dtype=column_types)
+        self.data.to_sql(name="airports", con=conn, if_exists="replace", index=False)
 
     def pipeline_process(self):
         self.load_data()
