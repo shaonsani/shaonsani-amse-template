@@ -1,7 +1,5 @@
 import pandas as pd
-import numpy as np
-import sqlite3 as sqlite
-
+import sqlalchemy
 
 class Exercise:
     def __init__(self):
@@ -12,28 +10,26 @@ class Exercise:
         self.data = pd.read_csv(self.data_url, sep=";")
         
     def save_to_db(self):
-        conn = sqlite.connect("airports.sqlite")
+        engine = sqlalchemy.create_engine("sqlite:///airports.sqlite")
         column_types = {
-            'column_1': 'INTEGER',
-            'column_2': 'VARCHAR(255)',
-            'column_3': 'VARCHAR(255)',
-            'column_4': 'VARCHAR(255)',
-            'column_5': 'VARCHAR(10)',
-            'column_6': 'VARCHAR(10)',
-            'coulmn_7': 'DOUBLE',
-            'column_8': 'DOUBLE',
-            'column_9': 'INTEGER',
-            'column_10': 'FLOAT',
-            'column_11': 'VARCHAR(10)',
-            'column_12': 'VARCHAR(50)',
-            'geo_punkt': 'DOUBLE'
+            'column_1': sqlalchemy.Integer,
+            'column_2': sqlalchemy.String(255),
+            'column_3': sqlalchemy.String(255),
+            'column_4': sqlalchemy.String(255),
+            'column_5': sqlalchemy.String(10),
+            'column_6': sqlalchemy.String(10),
+            'column_7': sqlalchemy.Float,
+            'column_8': sqlalchemy.Float,
+            'column_9': sqlalchemy.Integer,
+            'column_10': sqlalchemy.Float,
+            'column_11': sqlalchemy.String(10),
+            'column_12': sqlalchemy.String(50),
+            'geo_punkt': sqlalchemy.String(50)
         }
-        self.data.to_sql(name="airports", con=conn, if_exists="replace", index=False)
+        self.data.to_sql(name="airports", con=engine, if_exists="replace", index=False, dtype=column_types)
 
     def pipeline_process(self):
         self.load_data()
         self.save_to_db()
 
 obj = Exercise().pipeline_process()
-    
-
