@@ -10,13 +10,23 @@ valuetype ValidGeographicRange oftype decimal{
     ];
 }
 
+valuetype ValidIFOPT oftype text{
+    constraints: [
+        IFOPTRegex
+    ];
+}
+
 constraint VerkehrAllowist oftype AllowlistConstraint{
     allowlist: ["FV", "RV", "nur DPN"];
 }
 
 constraint GeographicsRange oftype RangeConstraint{
-    lowerBound: -90;
-    upperBound: 90;
+    lowerBound: -90.0;
+    upperBound: 90.0;
+}
+
+constraint IFOPTRegex oftype RegexConstraint{
+    regex: /[a-zA-Z]{2}:\d+:\d+(?:\d+)?/;
 }
 
 pipeline DBTrainStops{
@@ -44,7 +54,7 @@ pipeline DBTrainStops{
         columns: [
            "EVA_NR" oftype integer,
            "DS100" oftype text,
-           "IFOPT" oftype text,
+           "IFOPT" oftype ValidIFOPT,
            "NAME" oftype text,
            "Verkehr" oftype ValidVerkehr,
            "Laenge" oftype ValidGeographicRange,
@@ -61,6 +71,4 @@ pipeline DBTrainStops{
         table: "trainstops";
         file: "./trainstops.sqlite";
     }
-
-
 }
