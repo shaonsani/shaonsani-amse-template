@@ -1,3 +1,23 @@
+valuetype ValidVerkehr oftype text{
+    constraints: [
+        VerkehrAllowist
+    ];
+}
+
+valuetype ValidGeographicRange oftype decimal{
+    constraints: [
+        GeographicsRange
+    ];
+}
+
+constraint VerkehrAllowist oftype AllowlistConstraint{
+    allowlist: ["FV", "RV", "nur DPN"];
+}
+
+constraint GeographicsRange oftype RangeConstraint{
+    lowerBound: -90;
+    upperBound: 90;
+}
 
 pipeline DBTrainStops{
 
@@ -26,9 +46,9 @@ pipeline DBTrainStops{
            "DS100" oftype text,
            "IFOPT" oftype text,
            "NAME" oftype text,
-           "Verkehr" oftype text,
-           "Laenge" oftype decimal,
-           "Breite" oftype decimal,
+           "Verkehr" oftype ValidVerkehr,
+           "Laenge" oftype ValidGeographicRange,
+           "Breite" oftype ValidGeographicRange,
            "Betreiber_Name" oftype text,
            "Betreiber_Nr" oftype integer
 
