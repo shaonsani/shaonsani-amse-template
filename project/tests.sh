@@ -4,5 +4,5 @@
 pip install pytest
 
 # Run test files from test directory
-
-python -m pytest tests/test_data_pipeline.py
+pwd
+pytest -v project/tests/test_data_pipeline.py
