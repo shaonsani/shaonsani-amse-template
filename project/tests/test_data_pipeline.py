@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 import subprocess
-import os
+import os, time
 
 
 @pytest.fixture(scope="module")
@@ -57,4 +57,5 @@ def test_pipeline_execution():
 
 def test_check_data_existance():
     # Check if the file data are successfully save on sqlite database
+    time.sleep(30)
     assert os.path.exists("saki.sqlite"), f"sqlite file 'saki.sqlite' not found."
