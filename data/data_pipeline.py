@@ -20,7 +20,7 @@ class DataPipeline:
     def load_data(self):
         self.weather_aachen_1 = pd.read_csv(self.data_source_1_url)
         self.weather_aachen_1 = self.transform_new_aachen_dataset()
-        self.weather_aachen_2 = pd.read_csv("Static_dataset/aachen_2.csv")
+        self.weather_aachen_2 = pd.read_csv("static_dataset/aachen_2.csv")
         self.weather_aachen_2 = self.weather_aachen_2.drop(["snow", "tsun"], axis=1)
         
         
