@@ -51,11 +51,7 @@ def test_pipeline_execution():
     try:
         os.chdir('./data')
         subprocess.run(['python', 'data_pipeline.py'])
+        time.sleep(30)
+        assert os.path.exists("saki.sqlite"), f"sqlite file 'saki.sqlite' not found."
     except subprocess.CalledProcessError as e:
         pytest.fail(f"Pipeline execution failed with error code {e.returncode}.")
-
-
-def test_check_data_existance():
-    # Check if the file data are successfully save on sqlite database
-    time.sleep(30)
-    assert os.path.exists("saki.sqlite"), f"sqlite file 'saki.sqlite' not found."
