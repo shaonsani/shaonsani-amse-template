@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sqlite3 as sqlite
+import time
 
 
 class DataPipeline:
@@ -18,26 +19,25 @@ class DataPipeline:
         
         
     def load_data(self):
-        self.weather_aachen_1 = pd.read_csv(self.data_source_1_url)
-        self.weather_aachen_1 = self.transform_new_aachen_dataset()
-        self.weather_aachen_2 = pd.read_csv("static_dataset/aachen_2.csv")
-        self.weather_aachen_2 = self.weather_aachen_2.drop(["snow", "tsun"], axis=1)
-        
+        self.aachen_mobilithek = pd.read_csv(self.data_source_1_url)
+        self.aachen_mobilithek = self.transform_new_aachen_dataset()
+        self.aachen_meteostat = pd.read_csv("static_dataset/aachen_august_dataset.csv")
+        self.aachen_meteostat.drop(["snow", "tsun", "coco"], inplace=True, axis=1)
         
     def transform_new_aachen_dataset(self):
-        modified_dataset = pd.DataFrame(columns=["parameter", "value", "NumberOfVehicles", "Geohash7",  "Period"])
-        for index, row in self.weather_aachen_1.iterrows():
-            modified_row = {
-                "parameter": row["DataType"], "value": row["AverageValue"], "NumberOfVehicles": row["NumberOfVehicles"],
-                "Geohash7": row["Geohash7"], "Period": row["Period"]
-            }
-            modified_dataset.loc[index] = modified_row
+        modified_dataset = pd.DataFrame({
+            "parameter": self.aachen_mobilithek["DataType"],
+            "value": self.aachen_mobilithek["AverageValue"],
+            "NumberOfVehicles": self.aachen_mobilithek["NumberOfVehicles"],
+            "Geohash7": self.aachen_mobilithek["Geohash7"],
+            "Period": self.aachen_mobilithek["Period"]
+        })
         return modified_dataset
     
     def save_to_db(self):
         self.prepare_database()
-        self.weather_aachen_1.to_sql(name="aachen_1", con=self.conn, if_exists="replace", index=False)
-        self.weather_aachen_2.to_sql(name="aachen_2", con=self.conn, if_exists="replace", index=False)
+        self.aachen_mobilithek.to_sql(name="aachen_mobilithek", con=self.conn, if_exists="replace", index=False)
+        self.aachen_meteostat.to_sql(name="aachen_meteostat", con=self.conn, if_exists="replace", index=False)
         self.conn.close()
         
 
