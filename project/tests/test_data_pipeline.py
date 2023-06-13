@@ -37,8 +37,8 @@ def test_aachen_mcloud_airquality_dataset_columns_exist(aachen_mcloud_airquality
 
 def test_temperature_range(aachen_meteostat_airquality_data):
     # Check if the temperature values are within a valid range
-    min_temp = aachen_meteostat_airquality_data['tmin'].min()
-    max_temp = aachen_meteostat_airquality_data['tmax'].max()
+    min_temp = aachen_meteostat_airquality_data['temp'].min()
+    max_temp = aachen_meteostat_airquality_data['temp'].max()
     assert min_temp >= -50, 'Invalid temperature range.'
     assert max_temp <= 50, 'Invalid temperature range.'
 
