@@ -10,7 +10,7 @@ def aachen_mcloud_airquality_data_url():
 
 @pytest.fixture(scope="module")
 def aachen_meteostat_airquality_data_path():
-    return "./data/static_dataset/aachen_2.csv"
+    return "./data/static_dataset/aachen_august_dataset.csv"
 
 @pytest.fixture(scope="module")
 def aachen_mcloud_airquality_data(aachen_mcloud_airquality_data_url):
