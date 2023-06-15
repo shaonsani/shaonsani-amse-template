@@ -16,7 +16,7 @@ class Exercise3:
                                 engine='python')
 
     def data_preprocessing(self):
-        self.data = self.data.iloc[:, [0, 1, 2, 12, 22, 33, 42, 52, 61, 69]]
+        self.data = self.data.iloc[:, [0, 1, 2, 12, 22, 32, 42, 52, 62, 72]]
         self.data = self.data.rename(columns={
             self.data.columns[0]: 'date',
             self.data.columns[1]: 'CIN',
@@ -31,15 +31,15 @@ class Exercise3:
         })
 
         self.data['CIN'] = self.data['CIN'].astype(str).str.zfill(5)
-        # Validation for positive integers greater than 0
-        valid_columns = ['petrol', 'diesel', 'gas', 'electro', 'hybrid', 'plugInHybrid', 'others']
-        for col in valid_columns:
+        validating_columns = ['petrol', 'diesel', 'gas', 'electro', 'hybrid', 'plugInHybrid', 'others']
+        
+        for col in validating_columns:
             self.data[col] = pd.to_numeric(self.data[col], errors='coerce')
             self.data = self.data[self.data[col] > 0]
 
     def save_to_database(self):
         column_types = {
-                    'date': sqlalchemy.Date,
+                    'date': sqlalchemy.String(20),
                     'CIN': sqlalchemy.String(255),
                     'name': sqlalchemy.String(255),
                     'petrol': sqlalchemy.Integer,
