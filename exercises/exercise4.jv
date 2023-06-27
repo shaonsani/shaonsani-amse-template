@@ -1,0 +1,84 @@
+pipeline TemperaturePipeline {
+
+    ZipExtrator 
+        -> ZipAchieveInterpreter 
+        -> DataFilePicker 
+        -> TemperatureTextFileInterpreter
+        -> TemperatureCSVInterpreter
+        -> TemperatureRowDeleter
+        -> TemperatureColumnDeleter
+        -> TemperatureTableInterpreter
+        -> CelsiusToFahrenheitTransformer1
+        -> CelsiusToFahrenheitTransformer2
+        -> TemperatureLoader;
+
+    block ZipExtrator oftype HttpExtractor {
+        url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    }
+
+    block ZipAchieveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+
+    block DataFilePicker oftype FilePicker {
+        path: "/data.csv";
+    }
+
+    block TemperatureTextFileInterpreter oftype TextFileInterpreter{
+
+    }
+
+    block TemperatureCSVInterpreter oftype CSVInterpreter{
+        delimiter: ";";
+    }
+
+    block TemperatureRowDeleter oftype RowDeleter {
+        delete: [row 1];
+    }
+
+    block TemperatureColumnDeleter oftype ColumnDeleter {
+        delete: [column F, column G, column H, column I,  column L, column M, column N, column O];
+    }
+
+
+    block TemperatureTableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "Geraet" oftype integer,
+            "Hersteller" oftype text,
+            "Model" oftype text,
+            "Monat" oftype integer,
+            "Temperatur" oftype decimal,
+            "Batterietemperatur" oftype decimal,
+            "Geraet aktiv" oftype text
+
+        ];
+    }
+
+    block CelsiusToFahrenheitTransformer1 oftype TableTransformer {
+        inputColumn: 'Temperatur';
+        outputColumn: 'Temperatur';
+        use: CelsiusToFahrenheit;
+    }
+
+    block CelsiusToFahrenheitTransformer2 oftype TableTransformer {
+        inputColumn: 'Batterietemperatur';
+        outputColumn: 'Batterietemperatur';
+        use: CelsiusToFahrenheit;
+    }
+
+    transform CelsiusToFahrenheit {
+		    from celsius oftype decimal;
+		    to fahrenheit oftype decimal;
+            
+		    fahrenheit:  ((celsius*9)/5)+32;
+	}
+   
+
+    block TemperatureLoader oftype SQLiteLoader {
+        table: "temperatures";
+        file: "temperatures.sqlite";
+    }
+
+
+}
